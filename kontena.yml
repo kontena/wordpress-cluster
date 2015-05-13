@@ -1,0 +1,60 @@
+galera-seed:
+  image: sttts/galera-mariadb-10.0-xtrabackup:latest
+  stateful: true
+  command: seed
+  environment:
+    - XTRABACKUP_PASSWORD=abc
+    - MYSQL_ROOT_PASSWORD=secret
+
+galera:
+  image: sttts/galera-mariadb-10.0-xtrabackup:latest
+  stateful: true
+  instances: 3
+  command: "node wordpress-cluster-galera-seed-1.kontena.local,wordpress-cluster-galera.kontena.local"
+  environment:
+    - XTRABACKUP_PASSWORD=abc
+
+galera-ha:
+  image: kontena/haproxy:latest
+  instances: 3
+  links:
+    - galera:wordpress-cluster-galera
+  environment:
+    - BACKEND_PORT=3306
+    - FRONTEND_PORT=3306
+    - MODE=tcp
+
+wordpress:
+  image: wordpress:4.1
+  stateful: true
+  instances: 3
+  environment:
+    - WORDPRESS_DB_HOST=wordpress-cluster-galera-ha.kontena.local
+    - WORDPRESS_DB_PASSWORD=secret
+    - WORDPRESS_AUTH_KEY=kontena
+    - WORDPRESS_SECURE_AUTH_KEY=kontena
+    - WORDPRESS_LOGGED_IN_KEY=kontena
+    - WORDPRESS_NONCE_KEY=kontena
+    - WORDPRESS_AUTH_SALT=kontena
+    - WORDPRESS_SECURE_AUTH_SALT=kontena
+    - WORDPRESS_LOGGED_IN_SALT=kontena
+    - WORDPRESS_NONCE_SALT=kontena
+
+wordpress-btsync:
+  image: jakolehm/btsync:latest
+  volumes_from:
+    - "wordpress-cluster-wordpress-%s"
+  environment:
+    - SYNC_DIR=/var/www/html/wp-content
+  instances: 3
+  command: "ALG2OCIUXJYFNWILRKOETPLJVJ3AKCRJJ"
+
+wordpress-ha:
+  image: kontena/haproxy:latest
+  instances: 2
+  ports:
+    - 8083:80
+  links:
+    - wordpress:wordpress-cluster-wordpress
+  environment:
+    - BALANCE=source
