@@ -11,5 +11,7 @@ Building clustered Wordpress environment with [Kontena](http://www.kontena.io).
 2. Clone this repo
 3. Run `kontena deploy`
 
+See also [Simple Wordpress](https://github.com/kontena/wordpress) demo.
+
 ## License
 Kontena software is open source, and you can use it for any purpose, personal or commercial. Kontena is licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for full
