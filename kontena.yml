@@ -41,7 +41,7 @@ wordpress-btsync:
   environment:
     - SYNC_DIR=/var/www/html/wp-content
   instances: 3
-  command: "ALG2OCIUXJYFNWILRKOETPLJVJ3AKCRJJ"
+  command: "YOUR_SECRET_KEY_HERE"
 
 wordpress-ha:
   image: kontena/lb:latest
