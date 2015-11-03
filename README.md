@@ -9,7 +9,9 @@ Building clustered Wordpress environment with [Kontena](http://www.kontena.io).
 ## Usage
 1. [Setup](https://github.com/kontena/kontena/tree/master/docs) Kontena environment
 2. Clone this repo
-3. Run `kontena app deploy`
+3. Generate btsync secret key `$ docker run -i --rm --entrypoint=/usr/bin/btsync jakolehm/btsync:latest --generate-secret`
+4. Update btsync secret key in `kontena.yml`
+5. Run `$ kontena app deploy`
 
 See also [simple Wordpress demo](https://github.com/kontena/wordpress).
 
