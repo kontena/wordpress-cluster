@@ -1,11 +1,11 @@
 galera-seed:
-  image: sttts/galera-mariadb-10.0-xtrabackup:latest
+  image: jakolehm/galera-mariadb-10.0-xtrabackup:latest
   stateful: true
   command: seed
   env_file: galera-seed.env
 
 galera:
-  image: sttts/galera-mariadb-10.0-xtrabackup:latest
+  image: jakolehm/galera-mariadb-10.0-xtrabackup:latest
   stateful: true
   instances: 3
   command: "node wordpress-cluster-galera-seed-1.kontena.local,wordpress-cluster-galera.kontena.local"
